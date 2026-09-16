@@ -3,7 +3,7 @@
   "criteria": {
     "get_pick": {
       "conditions": {
-        "recipe_id": "minecraft:wooden_pickaxe"
+        "recipes": "minecraft:wooden_pickaxe"
       },
       "trigger": "minecraft:recipe_crafted"
     }

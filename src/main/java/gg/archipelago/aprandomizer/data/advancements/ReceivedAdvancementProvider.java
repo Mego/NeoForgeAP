@@ -7,29 +7,32 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.triggers.PlayerTrigger;
-import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 
-import java.util.function.Consumer;
+public class ReceivedAdvancementProvider extends AdvancementSubProvider {
 
-public class ReceivedAdvancementProvider implements AdvancementSubProvider {
+    public ReceivedAdvancementProvider(BootstrapContext<Advancement> output) {
+        super(output);
+    }
 
     @Override
-    public void generate(Provider registries, Consumer<AdvancementHolder> writer) {
+    public void generate() {
         AdvancementHolder root = Advancement.Builder.recipeAdvancement()
-                .display(
+                .rootDisplay(
                         Items.STRUCTURE_BLOCK,
                         Component.literal("Received Items"),
                         Component.literal("This tab will track items that you have received from Archipelago"),
+                        Identifier.withDefaultNamespace("block/basalt_side"),
                         AdvancementType.TASK,
                         false,
                         false,
                         false)
                 .addCriterion("auto", PlayerTrigger.TriggerInstance.tick())
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/root"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/root"));
 
         AdvancementHolder archery = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -42,7 +45,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_ARCHERY))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/archery"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/archery"));
 
         AdvancementHolder beds = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -55,7 +58,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_BEDS))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/beds"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/beds"));
 
         AdvancementHolder bottles = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -68,7 +71,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_BOTTLES))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/bottles"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/bottles"));
 
         AdvancementHolder brewing = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -81,7 +84,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_BREWING))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/brewing"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/brewing"));
 
         AdvancementHolder bucket = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -94,7 +97,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_BUCKET))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/bucket"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/bucket"));
 
         AdvancementHolder campfires = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -107,7 +110,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_CAMPFIRES))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/campfires"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/campfires"));
 
         AdvancementHolder enchanting = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -120,7 +123,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_ENCHANTING))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/enchanting"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/enchanting"));
 
         AdvancementHolder fishing = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -133,7 +136,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_FISHING))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/fishing"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/fishing"));
 
         AdvancementHolder flintAndSteel = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -146,7 +149,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_FLINT_AND_STEEL))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/flint_and_steel"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/flint_and_steel"));
 
         AdvancementHolder lead = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -159,7 +162,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_LEAD))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/lead"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/lead"));
 
         AdvancementHolder brush = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -172,7 +175,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_BRUSH))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/brush"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/brush"));
 
         AdvancementHolder progressiveArmor1 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -185,7 +188,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_ARMOR, 1))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_armor_1"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_armor_1"));
 
         AdvancementHolder progressiveArmor2 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -198,12 +201,12 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(progressiveArmor1)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_ARMOR, 2))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_armor_2"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_armor_2"));
 
         AdvancementHolder progressiveArmorAfter = Advancement.Builder.recipeAdvancement()
                 .parent(progressiveArmor2)
                 .addCriterion("auto", PlayerTrigger.TriggerInstance.tick())
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_armor_after"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_armor_after"));
 
         AdvancementHolder progressiveResourceCrafting1 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -216,7 +219,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_RESOURCE_CRAFTING, 1))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_resource_crafting_1"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_resource_crafting_1"));
 
         AdvancementHolder progressiveResourceCrafting2 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -229,12 +232,12 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(progressiveResourceCrafting1)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_RESOURCE_CRAFTING, 2))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_resource_crafting_2"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_resource_crafting_2"));
 
         AdvancementHolder progressiveResourceCraftingAfter = Advancement.Builder.recipeAdvancement()
                 .parent(progressiveResourceCrafting2)
                 .addCriterion("auto", PlayerTrigger.TriggerInstance.tick())
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_resource_crafting_after"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_resource_crafting_after"));
 
         AdvancementHolder progressiveTools1 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -247,7 +250,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_TOOLS, 1))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_1"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_1"));
 
         AdvancementHolder progressiveTools3 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -260,7 +263,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(progressiveTools1)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_TOOLS, 2))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_2"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_2"));
 
         AdvancementHolder progressiveTools4 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -273,12 +276,12 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(progressiveTools3)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_TOOLS, 3))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_3"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_3"));
 
         AdvancementHolder progressiveToolsAfter = Advancement.Builder.recipeAdvancement()
                 .parent(progressiveTools4)
                 .addCriterion("auto", PlayerTrigger.TriggerInstance.tick())
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_after"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_tools_after"));
 
         AdvancementHolder progressiveWeapons1 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -291,7 +294,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_WEAPONS, 1))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_1"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_1"));
 
         AdvancementHolder progressiveWeapons2 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -304,7 +307,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(progressiveWeapons1)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_WEAPONS, 2))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_2"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_2"));
 
         AdvancementHolder progressiveWeapons3 = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -317,12 +320,12 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(progressiveWeapons2)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.PROGRESSIVE_RECIPES_WEAPONS, 3))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_3"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_3"));
 
         AdvancementHolder progressiveWeaponsAfter = Advancement.Builder.recipeAdvancement()
                 .parent(progressiveWeapons3)
                 .addCriterion("auto", PlayerTrigger.TriggerInstance.tick())
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_after"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/progressive_weapons_after"));
 
         AdvancementHolder saddle = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -335,7 +338,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_SADDLE))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/saddle"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/saddle"));
 
         AdvancementHolder shield = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -348,7 +351,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_SHIELD))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/shield"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/shield"));
 
         AdvancementHolder spyglass = Advancement.Builder.recipeAdvancement()
                 .display(
@@ -361,7 +364,7 @@ public class ReceivedAdvancementProvider implements AdvancementSubProvider {
                         false)
                 .parent(root)
                 .addCriterion("received", ReceivedItemCriteria.TriggerInstance.receivedItem(APItems.GROUP_RECIPES_SPYGLASS))
-                .save(writer, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/spyglass"));
+                .save(output, Identifier.fromNamespaceAndPath(APRandomizer.MODID, "received/spyglass"));
     }
 
 }

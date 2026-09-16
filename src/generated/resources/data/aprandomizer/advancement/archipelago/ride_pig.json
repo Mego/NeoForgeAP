@@ -8,22 +8,20 @@
             "tags": [
               {
                 "expected": true,
-                "id": "aprandomizer:fall"
+                "id": "#aprandomizer:fall"
               }
             ]
           }
         },
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "minecraft:vehicle": {
-                "minecraft:entity_type": "minecraft:pig"
-              }
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:vehicle": {
+              "minecraft:entity_type": "minecraft:pig"
             }
           }
-        ]
+        }
       },
       "trigger": "minecraft:entity_hurt_player"
     }

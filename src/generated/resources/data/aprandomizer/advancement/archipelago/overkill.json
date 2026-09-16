@@ -8,7 +8,7 @@
             "tags": [
               {
                 "expected": false,
-                "id": "aprandomizer:fireball"
+                "id": "#aprandomizer:fireball"
               }
             ]
           },

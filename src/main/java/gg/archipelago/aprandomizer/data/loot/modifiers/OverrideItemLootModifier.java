@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.advancements.predicates.ItemPredicate;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class OverrideItemLootModifier extends LootModifier {
@@ -26,7 +28,7 @@ public class OverrideItemLootModifier extends LootModifier {
     private final ItemPredicate predicate;
     private final ResourceKey<LootTable> table;
 
-    public OverrideItemLootModifier(LootItemCondition[] conditionsIn, int priority, ItemPredicate predicate, ResourceKey<LootTable> table) {
+    public OverrideItemLootModifier(Optional<Holder<LootItemCondition>> conditionsIn, int priority, ItemPredicate predicate, ResourceKey<LootTable> table) {
         super(conditionsIn, priority);
         this.predicate = predicate;
         this.table = table;

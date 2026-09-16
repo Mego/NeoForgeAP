@@ -3,7 +3,7 @@
   "criteria": {
     "get_sword": {
       "conditions": {
-        "recipe_id": "minecraft:wooden_sword"
+        "recipes": "minecraft:wooden_sword"
       },
       "trigger": "minecraft:recipe_crafted"
     }

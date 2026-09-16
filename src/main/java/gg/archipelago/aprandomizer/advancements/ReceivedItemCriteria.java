@@ -29,7 +29,7 @@ public class ReceivedItemCriteria extends SimpleCriterionTrigger<ReceivedItemCri
     public record TriggerInstance(Optional<Holder<LootItemCondition>> player, ResourceKey<APItem> item, int tier) implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(instance -> instance
                 .group(
-                        EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
+                        LootItemCondition.CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
                         ResourceKey.codec(APRegistries.ARCHIPELAGO_ITEM).fieldOf("item").forGetter(TriggerInstance::item),
                         ExtraCodecs.POSITIVE_INT.optionalFieldOf("tier", 1).forGetter(TriggerInstance::tier))
                 .apply(instance, TriggerInstance::new));

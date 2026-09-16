@@ -3,33 +3,29 @@
   "criteria": {
     "in_city": {
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "minecraft:location": {
-                "structures": "minecraft:end_city"
-              }
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:location": {
+              "structures": "minecraft:end_city"
             }
           }
-        ]
+        }
       },
       "trigger": "minecraft:location"
     },
     "in_city_nether": {
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "minecraft:location": {
-                "structures": "aprandomizer:end_city_nether"
-              }
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:location": {
+              "structures": "aprandomizer:end_city_nether"
             }
           }
-        ]
+        }
       },
       "trigger": "minecraft:location"
     }

@@ -3,7 +3,7 @@
   "criteria": {
     "get_bread": {
       "conditions": {
-        "recipe_id": "minecraft:bread"
+        "recipes": "minecraft:bread"
       },
       "trigger": "minecraft:recipe_crafted"
     }

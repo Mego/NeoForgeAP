@@ -3,7 +3,7 @@
   "criteria": {
     "get_bookshelf": {
       "conditions": {
-        "recipe_id": "minecraft:bookshelf"
+        "recipes": "minecraft:bookshelf"
       },
       "trigger": "minecraft:recipe_crafted"
     }

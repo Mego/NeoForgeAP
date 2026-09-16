@@ -3,7 +3,7 @@
   "criteria": {
     "get_furnace": {
       "conditions": {
-        "recipe_id": "minecraft:furnace"
+        "recipes": "minecraft:furnace"
       },
       "trigger": "minecraft:recipe_crafted"
     }

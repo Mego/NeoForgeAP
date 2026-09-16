@@ -2,11 +2,16 @@ package gg.archipelago.aprandomizer.data.recipes;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.stream.Stream;
 
 public class NoAdvancementsRecipeOutput implements RecipeOutput {
 
@@ -27,8 +32,13 @@ public class NoAdvancementsRecipeOutput implements RecipeOutput {
     }
 
     @Override
-    public void includeRootAdvancement() {
+    public <S> HolderGetter<S> lookup(ResourceKey<? extends Registry<? extends S>> key) {
+        return inner.lookup(key);
+    }
 
+    @Override
+    public <S> Stream<Reference<S>> listContextElements(ResourceKey<? extends Registry<? extends S>> key) {
+        return inner.listContextElements(key);
     }
 
 }

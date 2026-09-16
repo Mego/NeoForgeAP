@@ -27,11 +27,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.packs.*;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
@@ -44,7 +44,7 @@ public class APDataGenerator {
 
     @SubscribeEvent
     public static void onDataGen(GatherDataEvent.Client event) {
-        CompletableFuture<HolderLookup.Provider> registries = event.addProvider(new DatapackBuiltinEntriesProvider(event.getGenerator().getPackOutput(), event.getLookupProvider(),
+        event.createWorldRegistryObjects(
                 new RegistrySetBuilder()
                         .add(NeoForgeRegistries.Keys.STRUCTURE_MODIFIERS, APStructureModifiers::bootstrap)
                         .add(Registries.STRUCTURE, APStructures::bootstrap)
@@ -53,28 +53,33 @@ public class APDataGenerator {
                         .add(APRegistries.ARCHIPELAGO_LOCATION, APLocations::bootstrap)
                         .add(APRegistries.ARCHIPELAGO_ITEM, APItems::bootstrap)
                         .add(Registries.TIMELINE, APTimelines::bootstrap),
-                Set.of(APRandomizer.MODID, "minecraft"))).getRegistryProvider();
-        event.addProvider(new AdvancementProvider(event.getGenerator().getPackOutput(), registries, List.of(
-                new APAdvancementProvider(),
-                new ReceivedAdvancementProvider(),
-                new AfterAdvancementProvider(List.of(
-                        new VanillaStoryAdvancements(),
-                        new VanillaNetherAdvancements(),
-                        new VanillaTheEndAdvancements(),
-                        new VanillaHusbandryAdvancements(),
-                        new VanillaAdventureAdvancements()),
-                        id -> Identifier.fromNamespaceAndPath(APRandomizer.MODID, "vanilla/" + id.getPath() + "_after")),
-                new VanillaOverrideAdvancementProvider())));
-        event.addProvider(new APDamageTypeTagsProvider(event.getGenerator().getPackOutput(), registries));
-        event.addProvider(new APRecipeProvider.Runner(event.getGenerator().getPackOutput(), registries));
-        event.addProvider(new APDataMapProvider(event.getGenerator().getPackOutput(), registries));
-        event.addProvider(new APBiomeTagsProvider(event.getGenerator().getPackOutput(), registries));
-        event.addProvider(new APStructureTagsProvider(event.getGenerator().getPackOutput(), registries));
-        event.addProvider(new APGlobalLootModifierProvider(event.getGenerator().getPackOutput(), registries));
-        event.addProvider(new LootTableProvider(event.getGenerator().getPackOutput(), Set.of(),
-                List.of(
-                        new LootTableProvider.SubProviderEntry(APAddedLootTableProvider::new, LootContextParamSets.ALL_PARAMS)),
-                registries));
-        event.addProvider(new APTimelineTagsProvider(event.getGenerator().getPackOutput(), registries));
+                Set.of(APRandomizer.MODID, "minecraft"));
+
+        event.createReloadableRegistryObjects(
+                new RegistrySetBuilder()
+                        .add(Registries.ADVANCEMENT, new AdvancementProvider(List.of(
+                                APAdvancementProvider::new,
+                                ReceivedAdvancementProvider::new,
+                                output -> new AfterAdvancementProvider(output, List.of(
+                                        VanillaStoryAdvancements::new,
+                                        VanillaNetherAdvancements::new,
+                                        VanillaTheEndAdvancements::new,
+                                        VanillaHusbandryAdvancements::new,
+                                        VanillaAdventureAdvancements::new),
+                                        id -> Identifier.fromNamespaceAndPath(APRandomizer.MODID, "vanilla/" + id.getPath() + "_after")),
+                                VanillaOverrideAdvancementProvider::new)))
+                        .add(RecipeProvider.asBootstrap(APRecipeProvider::new))
+                        .add(Registries.LOOT_TABLE, new LootTableProvider(Set.of(), List.of(
+                                new LootTableProvider.SubProviderEntry(APAddedLootTableProvider::new, LootContextParamSets.ALL_PARAMS)))),
+                Set.of(APRandomizer.MODID, "minecraft"));
+
+        CompletableFuture<HolderLookup.Provider> worldLookup = event.getWorldLookupProvider();
+
+        event.addProvider(new APDamageTypeTagsProvider(event.getGenerator().getPackOutput(), worldLookup));
+        event.addProvider(new APDataMapProvider(event.getGenerator().getPackOutput(), worldLookup));
+        event.addProvider(new APBiomeTagsProvider(event.getGenerator().getPackOutput(), worldLookup));
+        event.addProvider(new APStructureTagsProvider(event.getGenerator().getPackOutput(), worldLookup));
+        event.addProvider(new APGlobalLootModifierProvider(event.getGenerator().getPackOutput(), worldLookup));
+        event.addProvider(new APTimelineTagsProvider(event.getGenerator().getPackOutput(), worldLookup));
     }
 }
